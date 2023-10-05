@@ -1,13 +1,11 @@
-import openpyxl
 from openpyxl import Workbook
 from openpyxl import load_workbook
-import PySimpleGUI as sg
 from func import startScreen
 import os
 
 
 # Check for file
-if os.path.exists('Data.xlsx') == True:
+if os.path.exists('Data.xlsx'):
     Book = load_workbook('Data.xlsx')
     print('Workbook Found!')
 else:
@@ -31,16 +29,7 @@ print(r"""   .----------------.  .----------------.  .----------------.  .------
 | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'   """)
 
-print("""Welcome, please choose an option:\n
-    add | read | write | help | exit""")
-
-
-
 startScreen()
-
-
 
 # save
 Book.save('Data.xlsx')
-
-
