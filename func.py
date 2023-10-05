@@ -56,12 +56,44 @@ def product():
 # product functions
 def product_list():
     Book = load_workbook("Data.xlsx")
-    Sheet = Book.active
+    Sheet = Book['Sheet']
+    i = 0
     for row in Sheet:
-        print()
+        i = i + 1
+        I = str(i)
+        print(str(Sheet['A' + I].value) + "   |   " + str(Sheet['B' + I].value) + "   |   " + str(Sheet['C' + I].value))
+        print("""-------------------------------------------------------------------""")
+
+    ans = input('Continue? Y >>> ').lower()
+    if ans == "y":
+        startScreen()
+    else:
+        print('Unknown command')
+
 
 def product_add():
-    print(1)
+    Book = load_workbook("Data.xlsx")
+    Sheet = Book['Sheet']
+
+    name = input("Product name >>> ")
+    qty = input("Current quantity >>>")
+    max = Sheet.max_row + 1
+
+    Sheet.cell(row=max, column=1).value = max-1
+    Sheet.cell(row=max, column=2).value = name
+    Sheet.cell(row=max, column=3).value = int(qty)
+    Book.save('Data.xlsx')
+
+    ans = input('Add more? Y/N >>> ').lower()
+    if ans == "y":
+        product_add()
+    elif ans == "n":
+        startScreen()
+    else:
+        print('Unknown command')
+
 
 def product_remove():
-    print(1)
+    Book = load_workbook("Data.xlsx")
+    Sheet = Book.active
+

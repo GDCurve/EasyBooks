@@ -14,6 +14,7 @@ else:
     for row in Top:
         Book.active.append(row)
     print("Created Workbook / Not found")
+    Book.save('Data.xlsx')
 
 Sheet = Book.active
 
@@ -31,5 +32,4 @@ print(r"""   .----------------.  .----------------.  .----------------.  .------
 
 startScreen()
 
-# save
-Book.save('Data.xlsx')
+
