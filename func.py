@@ -76,14 +76,25 @@ def product_add():
     Sheet = Book['Sheet']
 
     name = input("Product name >>> ")
-    qty = input("Current quantity >>>")
+    qty = input("Current quantity >>> ")
     max = Sheet.max_row + 1
+    DeletedRows = Sheet.cell(row=1, column=999).value
+    print(DeletedRows)
 
-    Sheet.cell(row=max, column=1).value = max-1
+    # if NextID == None:
+    #     NextID = 1
+    if DeletedRows == 0:
+        NextID = max-1
+    else:
+        NextID = Sheet.cell(row=max - DeletedRows, column=1).value
+    print(NextID)
+
+    Sheet.cell(row=max, column=1).value = NextID + 1
     Sheet.cell(row=max, column=2).value = name
     Sheet.cell(row=max, column=3).value = int(qty)
     Book.save('Data.xlsx')
 
+    print(name + " was added with a quantity of " + str(qty) + " and an ID of " + str(NextID))
     ans = input('Add more? Y/N >>> ').lower()
     if ans == "y":
         product_add()
@@ -95,5 +106,17 @@ def product_add():
 
 def product_remove():
     Book = load_workbook("Data.xlsx")
-    Sheet = Book.active
+    Sheet = Book['Sheet']
+    row = input('Input ID of product >>> ')
 
+    Sheet.delete_rows(int(row)+1)
+    Sheet.cell(row=1, column=999).value = Sheet.cell(row=1, column=999).value + 1
+    Book.save('Data.xlsx')
+
+    ans = input('Remove more? Y/N >>> ').lower()
+    if ans == "y":
+        product_remove()
+    elif ans == "n":
+        startScreen()
+    else:
+        print('Unknown command')
