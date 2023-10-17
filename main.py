@@ -13,7 +13,7 @@ else:
     Top = [["ID", "NAME", "COUNT"]]
     for row in Top:
         Book.active.append(row)
-    Book.active.cell(row=1, column=999).value = 0
+    Book.active.cell(row=1, column=999).value = 1
     print("Created Workbook / Not found")
     Book.save('Data.xlsx')
 
