@@ -1,8 +1,9 @@
 from openpyxl import load_workbook
-
+from colorama import init,Fore
+init(autoreset=True)
 
 def startScreen():
-    print("""Welcome, please choose an option:\n
+    print(Fore.RED + """Welcome, please choose an option:\n
         edit | count | product | help | exit""")
     Choice = input('Choice >>> ').lower()
 
@@ -17,7 +18,7 @@ def startScreen():
         product()
     elif Choice == "help":
         clearscreen()
-        print(r"""--------------------------- HELP -----------------------------
+        print(Fore.GREEN + r"""--------------------------- HELP -----------------------------
 edit => allows for addition or subtraction of product count.
 
 count => reads the product count in warehouse
@@ -38,8 +39,12 @@ exit => exits the application
 def edit():
     Book = load_workbook("Data.xlsx")
     Sheet = Book['Sheet']
-    id = input('Input ID of product >>> ')
-
+    id = input(Fore.CYAN + 'Input ID of product >>> ')
+    if id.isdigit() == False:
+        print(Fore.RED + 'Enter an ID')
+        edit()
+    else:
+        pass
     i = 0
     for row in Sheet:
         i = i + 1
@@ -68,7 +73,7 @@ def edit():
 
 
 def count():
-    id = input('Input ID of product >>> ')
+    id = input(Fore.CYAN + 'Input ID of product >>> ')
     Book = load_workbook("Data.xlsx")
     Sheet = Book['Sheet']
     i = 0
@@ -77,9 +82,9 @@ def count():
         if Book.active.cell(row=i, column=1).value == int(id):
             name = Book.active.cell(row=i, column=2).value
             qty = Book.active.cell(row=i, column=3).value
-            print("there's " + str(qty) + " of " + str(name) + " stored")
+            print(Fore.GREEN + "there's " + str(qty) + " of " + str(name) + " stored")
 
-    ans = input('Count another product? Y/N >>> ').lower()
+    ans = input(Fore.CYAN + 'Count another product? Y/N >>> ').lower()
     if ans == "y":
         count()
     elif ans == "n":
@@ -89,9 +94,9 @@ def count():
 
 
 def product():
-    print(r""" choose an option:
+    print(Fore.RED + r""" choose an option:
         list | add | remove""")
-    choice = input("Choice >>> ").lower()
+    choice = input(Fore.CYAN + "Choice >>> ").lower()
     if choice == "list":
         clearscreen()
         product_list()
@@ -102,7 +107,7 @@ def product():
         clearscreen()
         product_remove()
     else:
-        print("unknown choice, try again")
+        print(Fore.RED + "unknown choice, try again")
         product()
 
 
@@ -117,11 +122,11 @@ def product_list():
         print(str(Sheet['A' + I].value) + "   |   " + str(Sheet['B' + I].value) + "   |   " + str(Sheet['C' + I].value))
         print("""-------------------------------------------------------------------""")
 
-    ans = input('Continue? Y >>> ').lower()
+    ans = input(Fore.CYAN + 'Continue? Y >>> ').lower()
     if ans == "y":
         startScreen()
     else:
-        print('Unknown command')
+        print(Fore.RED + 'Unknown command')
         startScreen()
 
 
@@ -129,8 +134,8 @@ def product_add():
     Book = load_workbook("Data.xlsx")
     Sheet = Book['Sheet']
 
-    name = input("Product name >>> ")
-    qty = input("Current quantity >>> ")
+    name = input(Fore.CYAN + "Product name >>> ")
+    qty = input(Fore.CYAN + "Current quantity >>> ")
     max = Sheet.max_row + 1
 
     NextID = Book.active.cell(row=1, column=999).value
@@ -156,7 +161,7 @@ def product_add():
 def product_remove():
     Book = load_workbook("Data.xlsx")
     Sheet = Book['Sheet']
-    ID = input('Input ID of product >>> ')
+    ID = input(Fore.CYAN + 'Input ID of product >>> ')
     i = 0
     for row in Sheet:
         i = i + 1
@@ -166,13 +171,13 @@ def product_remove():
 
     # Book.save('Data.xlsx')
 
-    ans = input('Remove more? Y/N >>> ').lower()
+    ans = input(Fore.CYAN + 'Remove more? Y/N >>> ').lower()
     if ans == "y":
         product_remove()
     elif ans == "n":
         startScreen()
     else:
-        print('Unknown command')
+        print(Fore.RED + 'Unknown command')
         startScreen()
 
 def clearscreen():
