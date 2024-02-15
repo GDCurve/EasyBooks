@@ -3,21 +3,22 @@ from openpyxl import load_workbook
 from func import startScreen
 import os
 
+def initial():
+    # Check for file
+    if os.path.exists('Data.xlsx'):
+        Book = load_workbook('Data.xlsx')
+        print('Workbook Found!')
+    else:
+        Book = Workbook()
+        Top = [["ID", "NAME", "COUNT"]]
+        for row in Top:
+            Book.active.append(row)
+        Book.active.cell(row=1, column=999).value = 1
+        print("Created Workbook / Not found")
+        Book.save('Data.xlsx')
+        Sheet = Book.active
 
-# Check for file
-if os.path.exists('Data.xlsx'):
-    Book = load_workbook('Data.xlsx')
-    print('Workbook Found!')
-else:
-    Book = Workbook()
-    Top = [["ID", "NAME", "COUNT"]]
-    for row in Top:
-        Book.active.append(row)
-    Book.active.cell(row=1, column=999).value = 1
-    print("Created Workbook / Not found")
-    Book.save('Data.xlsx')
-
-Sheet = Book.active
+initial()
 
 print(r"""   .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
 | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
