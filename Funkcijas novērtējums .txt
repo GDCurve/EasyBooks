@@ -26,4 +26,9 @@ def count(id):
 
 Šai funkcijai iebaro kādu id, un tālāk tā meklē caur katru rindiņu vai id sakrīt ar iebaroto, pēc tam izmetot produkta skaitu.
 
-Šajā funkcijā jo lielāks id, jo ilgāk funkcijai aizņems lai pabeigtos, jo tā skatās caur katru rindiņu priekš vēlamā id. Pirmais variants ko varētu kāds iedomāties ir vienkārši ielādēt rindiņu kurai kārtas skaitlis sakrīt ar id un tādējādi iegūt skaitu daudz ātrāk, tomēr šis praktiski nestrādā, jo izdzēšot produktu radīsies problēmas ar id ja nevēlas atkārtotus id. Manuprāt šo varētu labāk izveidot ieviešot kādu mainīgo priekš izdzēsto rindiņu skaita, ar kuru varētu pateikt kāda ir nobīde rindiņām attiecībā pret id, tādējādi ielādējot uzreiz pareizo rindiņu un nolasot informāciju, kas būtu daudz ātrāk.
+ Šajā funkcijā jo lielāks id, jo ilgāk funkcijai aizņems lai pabeigtos, jo tā skatās caur katru rindiņu priekš vēlamā id.
+ Pirmais variants ko varētu kāds iedomāties ir vienkārši ielādēt rindiņu kurai kārtas skaitlis sakrīt ar id un tādējādi
+ iegūt skaitu daudz ātrāk, tomēr šis praktiski nestrādā, jo izdzēšot produktu
+ radīsies problēmas ar id ja nevēlas atkārtotus id. Manuprāt šo varētu labāk izveidot
+ ieviešot kādu mainīgo priekš izdzēsto rindiņu skaita, ar kuru varētu pateikt kāda ir nobīde
+ rindiņām attiecībā pret id, tādējādi ielādējot uzreiz pareizo rindiņu un nolasot informāciju, kas būtu daudz ātrāk.
