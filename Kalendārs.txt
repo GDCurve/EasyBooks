@@ -1,0 +1,11 @@
+Kalendārs:
+
+Aprīlis:
+-Svītrkoda sistēma
+-Izpētīt un iemācīties kā veidot GUI
+-Sākt darbu uz GUI
+-Sataisīt pārskatāmāku excel failu
+
+Maijs:
+-Izveidot un pabeigt GUI
+-Atrast ko uzlabot

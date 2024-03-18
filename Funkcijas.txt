@@ -1,0 +1,32 @@
+VISAS FUNKCIJAS VAR ATRAST func.py
+
+startScreen()
+Parāda starta ekrānu, kā arī ļauj lietotājam izvēlēties ko vēlas darīt.
+
+
+edit()
+Ļauj lietotājam rediģēt kāda produkta skaitu
+
+
+count()
+Ļauj lietotājam uzzināt kāda produkta skaitu
+
+
+product()
+Ļauj lietotājam pievienot, izdzēst vai nolasīt visus produktus kas ir uzglabāti
+
+
+product_list()
+Nolasa visus produktus un izprintē tos konsolē
+
+
+product_add()
+Ļauj pievienot jaunu produktu sistēmai
+
+
+product_remove()
+Ļauj izdzēst kādu produktu no sistēmas
+
+
+clearscreen()
+Notīra ekrānu
