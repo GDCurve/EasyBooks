@@ -1,0 +1,29 @@
+//// Funkcijas novērtējums ////
+-------------------------------
+
+
+
+def count(id):
+    Book = load_workbook("Data.xlsx")
+    Sheet = Book['Sheet']
+    i = 0
+    for row in Sheet:
+        i = i + 1
+        if Book.active.cell(row=i, column=1).value == int(id):
+            name = Book.active.cell(row=i, column=2).value
+            qty = Book.active.cell(row=i, column=3).value
+            print("there's " + str(qty) + " of " + str(name) + " stored")
+
+    ans = input('Count another product? Y/N >>> ').lower()
+    if ans == "y":
+        count()
+    elif ans == "n":
+        startScreen()
+    else:
+        print('Unknown command')
+
+------------------------------------------------------------------------------------
+
+Šai funkcijai iebaro kādu id, un tālāk tā meklē caur katru rindiņu vai id sakrīt ar iebaroto, pēc tam izmetot produkta skaitu.
+
+Šajā funkcijā jo lielāks id, jo ilgāk funkcijai aizņems lai pabeigtos, jo tā skatās caur katru rindiņu priekš vēlamā id. Pirmais variants ko varētu kāds iedomāties ir vienkārši ielādēt rindiņu kurai kārtas skaitlis sakrīt ar id un tādējādi iegūt skaitu daudz ātrāk, tomēr šis praktiski nestrādā, jo izdzēšot produktu radīsies problēmas ar id ja nevēlas atkārtotus id. Manuprāt šo varētu labāk izveidot ieviešot kādu mainīgo priekš izdzēsto rindiņu skaita, ar kuru varētu pateikt kāda ir nobīde rindiņām attiecībā pret id, tādējādi ielādējot uzreiz pareizo rindiņu un nolasot informāciju, kas būtu daudz ātrāk.

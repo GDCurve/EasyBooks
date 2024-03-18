@@ -8,9 +8,11 @@ def startScreen():
 
     if Choice == "edit":
         clearscreen()
-        edit()
+        id = input('Input ID of product >>> ')
+        edit(id)
     elif Choice == "count":
         clearscreen()
+        id = input('Input ID of product >>> ')
         count()
     elif Choice == "product":
         clearscreen()
@@ -35,10 +37,9 @@ exit => exits the application
         print('unknown command, try again')
         startScreen()
 
-def edit():
+def edit(id):
     Book = load_workbook("Data.xlsx")
     Sheet = Book['Sheet']
-    id = input('Input ID of product >>> ')
 
     i = 0
     for row in Sheet:
@@ -67,8 +68,7 @@ def edit():
                 startScreen()
 
 
-def count():
-    id = input('Input ID of product >>> ')
+def count(id):
     Book = load_workbook("Data.xlsx")
     Sheet = Book['Sheet']
     i = 0
