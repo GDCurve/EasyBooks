@@ -2,6 +2,7 @@ from openpyxl import Workbook
 from openpyxl import load_workbook
 from func import startScreen
 from colorama import init,Fore
+from openpyxl.styles import Font
 import os
 init(autoreset=True)
 
@@ -11,9 +12,16 @@ if os.path.exists('Data.xlsx'):
     print('Workbook Found!')
 else:
     Book = Workbook()
+    Sheet = Book.active
     Top = [["ID", "NAME", "COUNT"]]
+    header_font = Font(bold=True, size=16)
     for row in Top:
-        Book.active.append(row)
+        Sheet.append(row)
+        Sheet['A1'].font = header_font
+        Sheet['B1'].font = header_font
+        Sheet['C1'].font = header_font
+        Sheet.column_dimensions['B'].width = 22
+        Sheet.column_dimensions['C'].width = 11 # 11 vai 12 nezinu kas labak izskatas
     Book.active.cell(row=1, column=999).value = 1
     print("Created Workbook / Not found")
     Book.save('Data.xlsx')
