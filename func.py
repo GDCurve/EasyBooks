@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 import sys
-import os
+import subprocess
 
 def load():
     Book = load_workbook("Data.xlsx")
@@ -47,7 +47,7 @@ product => allows adding, removing or listing products
 
 help => opens help menu
 
-UI => opens the GUI mode (WIP)
+gui => opens the GUI mode (WIP)
 
 exit => exits the application
 ---------------------------------------------------------------""")
@@ -78,30 +78,40 @@ def edit(id):
     Book,Sheet = load()
 
     name, qty, i = finder(id)
+
+    if finder(id) == (None, None, None):
+        print("Product not found")
+        startScreen()
+
     clearscreen()
     print('You are about to edit the count of ' + name + " which is stored at a quantity of " + str(qty))
     ans = input('Continue? Y / N >>> ').lower()
     if ans == "y":
-        op = input('Would you like to Add | Remove >>> ').lower()
-        qty = int(input('How much? >>> '))
-        if op == "add":
-            Book.active.cell(row=i, column=3).value = Book.active.cell(row=i, column=3).value + qty
-            Book.save('Data.xlsx')
+        qty = input('Edit count by how much? >>> ')
+
+        try:
+            int(qty)
+        except ValueError:
+            print('Invalid quantity')
             startScreen()
-        elif op == "remove":
-            Book.active.cell(row=i, column=3).value = Book.active.cell(row=i, column=3).value - qty
-            Book.save('Data.xlsx')
-            startScreen()
-        else:
-                print("Unknown command")
+
+        Sheet.cell(row=i, column=3).value = Sheet.cell(row=i, column=3).value + int(qty)
+        Book.save('Data.xlsx')
+        input('New count of ' + name + ' is ' + str(Sheet.cell(row=i, column=3).value) +
+               ' press enter to continue')
+        startScreen()
     else:
-                print('Cancelling')
-                startScreen()
+        startScreen()
 
 
 def count(id):
     Book,Sheet = load()
     name, qty, i = finder(id)
+
+    if finder(id) == (None, None, None):
+        print("Product not found")
+        startScreen()
+
     print("there's " + str(qty) + " of " + str(name) + " stored")
 
     ans = input('Count another product? Y/N >>> ').lower()
@@ -166,28 +176,16 @@ def product_list():
 
     ans = input('Continue? Y >>> ').lower()
     startScreen()
-# def product_list():
-#     global Book
-#     global Sheet
-#     i = 0
-#     for row in Sheet:
-#         i = i + 1
-#         I = str(i)
-#         print(str(Sheet['A' + I].value) + "   |   " + str(Sheet['B' + I].value) + "   |   " + str(Sheet['C' + I].value))
-#         print("""-------------------------------------------------------------------""")
-#
-#     ans = input('Continue? Y >>> ').lower()
-#     if ans == "y":
-#         startScreen()
-#     else:
-#         print('Unknown command')
-#         startScreen()
 
 
 def product_add():
     Book,Sheet = load()
     name = input("Product name >>> ")
     qty = input("Current quantity >>> ")
+    if qty.isdigit() == False:
+        print("Invalid quantity")
+        startScreen()
+
     max = Sheet.max_row + 1
 
     NextID = Book.active.cell(row=1, column=999).value
@@ -215,6 +213,10 @@ def product_remove(id):
 
     name, qty, i = finder(id)
 
+    if finder(id) == (None, None, None):
+        print("Product not found")
+        startScreen()
+
     Sheet.delete_rows(i)
     Book.save('Data.xlsx')
     Choice = input(name + " was removed from the list, remove another one? >> ").lower()
@@ -237,23 +239,6 @@ def product_remove(id):
 
     func()
 
-    # ID = input('Input ID of product >>> ')
-    # i = 0
-    # for row in Sheet:
-    #     i = i + 1
-    #     if Book.active.cell(row=i, column=1).value == int(ID):
-    #         Sheet.delete_rows(i)
-    #         Book.save('Data.xlsx')
-    # ans = input('Remove more? Y/N >>> ').lower()
-
-    # if ans == "y":
-    #     id = input('Input ID of product >>> ')
-    #     product_remove(id)
-    # elif ans == "n":
-    #     startScreen()
-    # else:
-    #     print('Unknown command')
-    #     startScreen()
 
 def clearscreen():
     i = 0
@@ -269,6 +254,9 @@ def clearscreen():
 
 def finder(id):
 
+    if not id.isdigit():
+        return None, None, None
+
     Book,Sheet = load()
     i = 0
     for row in Sheet:
@@ -277,16 +265,13 @@ def finder(id):
             name = Book.active.cell(row=i, column=2).value
             qty = Book.active.cell(row=i, column=3).value
             return name, qty, i
+    return None, None, None
 
-def save():
-    Book,Sheet = load()
-    Book.save('Data.xlsx')
-    startScreen()
 
 def start_gui():
     choice = input("Start GUI mode? Y/N >>> ").lower()
 
     if choice == "y":
-        os.system("UI.py")
+        subprocess.run(['python', 'UI.py'])
     else:
         startScreen()

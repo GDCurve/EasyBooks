@@ -3,7 +3,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton
 from PyQt5.QtCore import Qt
-from func import load, finder, save
+from func import load, finder
 from PyQt5.QtCore import QCoreApplication
 
 class IzdzestDialogs(QDialog):
@@ -80,7 +80,7 @@ class EditDialogs(QDialog):
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(702, 576)
+        MainWindow.setFixedSize(702, 576)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -153,14 +153,14 @@ class Ui_MainWindow(object):
         if result == QDialog.Accepted:
             id = dialog.id_input.text()
             Book, Sheet = load()
-
             name, qty, i = finder(id)
-            if id.isdigit() == True:
+
+            if finder(id) == (None, None, None):
+                self.atvert_izdzest()
+            else:
                 Sheet.delete_rows(i)
                 Book.save('Data.xlsx')
                 self.update_table()
-            else:
-                self.atvert_izdzest()
 
 
     def atvert_pievienot(self):
@@ -171,21 +171,27 @@ class Ui_MainWindow(object):
             qty = dialog.id_input.text()
             name = dialog.name_input.text()
             Book, Sheet = load()
-            if qty.isdigit() == True:
 
-                max = Sheet.max_row + 1
+            try:
+                int(qty)
+            except ValueError:
+                print('Invalid quantity')
+                self.atvert_edit()
 
-                NextID = Book.active.cell(row=1, column=999).value
+            max = Sheet.max_row + 1
 
-                Sheet.cell(row=max, column=1).value = NextID
-                Sheet.cell(row=max, column=2).value = name
-                Sheet.cell(row=max, column=3).value = int(qty)
+            NextID = Book.active.cell(row=1, column=999).value
 
-                Book.active.cell(row=1, column=999).value = Book.active.cell(row=1, column=999).value + 1
-                Book.save('Data.xlsx')
-                self.update_table()
-            else:
-                self.atvert_pievienot()
+            Sheet.cell(row=max, column=1).value = NextID
+            Sheet.cell(row=max, column=2).value = name
+            Sheet.cell(row=max, column=3).value = int(qty)
+
+            Book.active.cell(row=1, column=999).value = Book.active.cell(row=1, column=999).value + 1
+            Book.save('Data.xlsx')
+            self.update_table()
+
+        else:
+            self.atvert_pievienot()
 
 
     def atvert_edit(self):
@@ -195,16 +201,19 @@ class Ui_MainWindow(object):
         if result == QDialog.Accepted:
             id = dialog.id_input.text()
             count = dialog.count_input.text()
-            if id.isdigit() == True or count.isdigit() == True:
-                finder(id)
-                Book, Sheet = load()
-                name, qty, i = finder(id)
-                Sheet.cell(row=i, column=3).value = Sheet.cell(row=i, column=3).value + int(count)
-                Book.save('Data.xlsx')
-                self.update_table()
-            else:
+
+            try:
+                int(count)
+            except ValueError:
+                print('Invalid quantity')
                 self.atvert_edit()
 
+            finder(id)
+            Book, Sheet = load()
+            name, qty, i = finder(id)
+            Sheet.cell(row=i, column=3).value = Sheet.cell(row=i, column=3).value + int(count)
+            Book.save('Data.xlsx')
+            self.update_table()
 
 
 if __name__ == "__main__":
